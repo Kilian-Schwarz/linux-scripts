@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Setzen der sudo ufw Firewall zurück
+# Setzen der ufw Firewall zurück
 sudo ufw --force reset
 
 # Standardverhalten: Eingehende Verbindungen blockieren, ausgehende Verbindungen erlauben
