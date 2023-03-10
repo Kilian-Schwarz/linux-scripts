@@ -1,5 +1,6 @@
 #!/bin/bash
 chmod +x scripts/*
+
 # Funktion zum Ausführen eines Skripts
 run_script() {
   # Führe das ausgewählte Skript mit sudo bash aus
@@ -10,6 +11,11 @@ run_script() {
   if [ $exit_code -ne 0 ]; then
     echo "Das vorherige Skript hat einen Fehler verursacht (Exit-Code $exit_code). Bitte wählen Sie erneut aus."
   fi
+}
+
+# Funktion zum Löschen des Terminalfensters
+clear_terminal() {
+  clear
 }
 
 # Liste alle Skripte im aktuellen Verzeichnis auf, numeriere sie und gib sie aus
@@ -26,6 +32,18 @@ echo "Bitte wählen Sie ein Skript aus (0 zum Beenden): "
 
 # Warte auf eine Benutzereingabe
 while true; do
+  # Lösche das Terminalfenster vor jeder Auswahl
+  clear_terminal
+  # Liste alle Skripte erneut auf
+  echo "Liste aller Skripte im aktuellen Verzeichnis auf:"
+  for script_file in ./scripts/*; do
+    if [ -f "$script_file" ] && [ -x "$script_file" ]; then
+      echo "$(basename "$script_file")"
+    fi
+  done
+  # Eingabeaufforderung für den Benutzer
+  echo "Bitte wählen Sie ein Skript aus (0 zum Beenden): "
+
   read choice
   # Wenn der Benutzer 0 auswählt, beende das Skript
   if [ "$choice" -eq 0 ]; then
