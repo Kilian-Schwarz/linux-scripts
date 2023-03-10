@@ -20,6 +20,7 @@ clear_terminal() {
 
 # Liste alle Skripte im aktuellen Verzeichnis auf, numeriere sie und gib sie aus
 script_count=0
+echo "Liste aller Skripte im aktuellen Verzeichnis auf:"
 for script_file in ./scripts/*; do
   if [ -f "$script_file" ] && [ -x "$script_file" ]; then
     script_count=$((script_count+1))
@@ -36,9 +37,11 @@ while true; do
   clear_terminal
   # Liste alle Skripte erneut auf
   echo "Liste aller Skripte im aktuellen Verzeichnis auf:"
+  script_count=0
   for script_file in ./scripts/*; do
     if [ -f "$script_file" ] && [ -x "$script_file" ]; then
-      echo "$(basename "$script_file")"
+      script_count=$((script_count+1))
+      echo "$script_count. $(basename "$script_file")"
     fi
   done
   # Eingabeaufforderung für den Benutzer
@@ -47,6 +50,7 @@ while true; do
   read choice
   # Wenn der Benutzer 0 auswählt, beende das Skript
   if [ "$choice" -eq 0 ]; then
+    echo "Das Skript wird beendet."
     exit 0
   fi
   # Wenn der Benutzer eine gültige Auswahl trifft, führe das Skript aus
