@@ -1,5 +1,5 @@
 #!/bin/bash
-
+chmod +x scripts/*
 # Funktion zum Ausführen eines Skripts
 run_script() {
   # Führe das ausgewählte Skript mit sudo bash aus
