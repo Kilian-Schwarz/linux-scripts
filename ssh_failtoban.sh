@@ -41,4 +41,16 @@ echo "       action  = %(action_mwl)s" >> /etc/fail2ban/jail.local
 echo "" >> /etc/fail2ban/jail.local
 
 # Set up email notification
-sed -i "s/destemail = root@localhost/destemail = Kilian
+sed -i "s/destemail = root@localhost/destemail = Kilian@webschwarz.de/g" /etc/fail2ban/jail.local
+echo "sendername = Fail2ban" >> /etc/fail2ban/jail.local
+echo "mta = mail" >> /etc/fail2ban/jail.local
+echo "mta-whois[name=%(name)s, dest=%(destemail)s, protocol=%(protocol)s]" >> /etc/fail2ban/jail.local
+echo " enabled = true" >> /etc/fail2ban/jail.local
+echo " port = 587" >> /etc/fail2ban/jail.local
+echo " protocol = smtps" >> /etc/fail2ban/jail.local
+echo " action = %(action_mwl)s" >> /etc/fail2ban/jail.local
+echo " sender = donotreply@mysvc.de" >> /etc/fail2ban/jail.local
+echo " password = h#z5_]6_5!)S,5*6ikHuTxX8{P^_2hd5Rt8Ee:XzoI" >> /etc/fail2ban/jail.local
+
+#Restart Fail2ban
+service fail2ban restart
