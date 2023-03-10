@@ -1,0 +1,11 @@
+if test ! -e /opt/scripts-ks;
+then mkdir -p /opt/scripts-ks;
+fi;
+if test ! -e "/opt/scripts-ks/autoupdate.sh" ;
+then touch "/opt/scripts-ks/autoupdate.sh" ;
+chmod +x "/opt/scripts-ks/autoupdate.sh" ;
+fi;
+echo "apt-get update && apt-get upgrade -y" >> "/opt/scripts-ks/autoupdate.sh" ;
+echo "date '+%H:%M:%S   %d/%m/%y'  >> /opt/scripts-ks/autoupdate_t.log" >> "/opt/scripts-ks/autoupdate.sh";
+apt-get install cron -y ;
+echo "0 1 * * * root /opt/scripts-ks/autoupdate.sh > /opt/scripts-ks/autoupdate.log" >>/etc/crontab ;
