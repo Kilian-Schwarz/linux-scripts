@@ -1,7 +1,6 @@
 #!/bin/bash
 
-
-#Überprüfen, ob UFW installiert ist
+# Überprüfen, ob UFW installiert ist
 if ! command -v ufw &> /dev/null
 then
 echo "UFW ist nicht installiert. UFW wird jetzt installiert."
@@ -9,8 +8,17 @@ sudo apt-get update
 sudo apt-get install ufw -y
 fi
 
-# Setzen der UFW Firewall zurück
-ufw --force reset
+# Überprüfen, ob bereits Regeln existieren
+if ufw status | grep -q 'active'; then
+    read -p "Es existieren bereits Regeln. Möchten Sie die UFW zurücksetzen? [j/n]: " regel_option
+    if [[ $regel_option == [jJ] ]]; then
+        # Setzen der UFW Firewall zurück
+        ufw --force reset
+    fi
+else
+    # Setzen der UFW Firewall zurück
+    ufw --force reset
+fi
 
 # Standardverhalten: Eingehende Verbindungen blockieren, ausgehende Verbindungen erlauben
 ufw default deny incoming
