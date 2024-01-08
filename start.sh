@@ -18,6 +18,7 @@ clear_terminal() {
   clear
 }
 
+
 # Liste alle Skripte im aktuellen Verzeichnis auf, numeriere sie und gib sie aus
 script_count=0
 echo "Liste aller Skripte im aktuellen Verzeichnis auf:"
