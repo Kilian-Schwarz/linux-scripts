@@ -8,6 +8,13 @@ then
     sudo apt-get install ufw -y
 fi
 
+# Überprüfen, ob lsof installiert ist
+if ! command -v lsof &> /dev/null
+then
+    echo "lsof ist nicht installiert. lsof wird jetzt installiert."
+    sudo apt-get install lsof -y
+fi
+
 # Überprüfen, ob bereits Regeln existieren
 if ufw status | grep -q 'active'; then
     read -p "Es existieren bereits Regeln. Möchten Sie die UFW zurücksetzen? [j/n]: " regel_option
