@@ -3,9 +3,9 @@
 # Überprüfen, ob UFW installiert ist
 if ! command -v ufw &> /dev/null
 then
-echo "UFW ist nicht installiert. UFW wird jetzt installiert."
-sudo apt-get update
-sudo apt-get install ufw -y
+    echo "UFW ist nicht installiert. UFW wird jetzt installiert."
+    sudo apt-get update
+    sudo apt-get install ufw -y
 fi
 
 # Überprüfen, ob bereits Regeln existieren
@@ -32,6 +32,23 @@ if [[ $ssh_server == [jJ] ]]; then
 else
     ufw allow ssh comment "SSH erlaubt"
 fi
+
+#Offene Ports ermitteln und fragen, ob sie hinzugefügt werden sollen
+echo "Ermittle offene Ports..."
+sudo lsof -i -P -n | grep LISTEN | awk '{print $9}' | sed -e 's/.*://' | sort | uniq | while read port; do
+    echo "Port $port ist offen."
+    read -p "Möchten Sie Port $port zur UFW hinzufügen? [j/n]: " add_port
+    if [[ $add_port == [jJ] ]]; then
+        read -p "Soll der Zugriff auf Port $port von überall erlaubt sein? [j/n]: " port_access
+        if [[ $port_access == [jJ] ]]; then
+        ufw allow $port comment "Zugriff auf Port $port von überall erlaubt"
+        else
+        read -p "Geben Sie die IP-Adresse oder den Hostnamen für den Zugriff an: " ip_host
+        ufw allow from $ip_host to any port $port proto tcp comment "Zugriff auf Port $port von $ip_host erlaubt"
+        fi
+    fi
+done
+
 
 # Weitere Ports hinzufügen
 while true; do
